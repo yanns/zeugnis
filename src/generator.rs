@@ -1,5 +1,10 @@
 
-pub fn generate_one_suggestion(template: &str, name: &str, nom: &str, akk: &str, was: &str) -> String {
+pub fn generate_one_suggestion(template: &str,
+                               name: &str,
+                               nom: &str,
+                               akk: &str,
+                               was: &str)
+                               -> String {
     uppercase_first_letter(template.replace("{name}", name)
         .replace("{nom}", nom)
         .replace("{akk}", akk)
