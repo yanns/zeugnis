@@ -1,4 +1,10 @@
+extern crate iron;
+
 mod generator;
+
+use iron::prelude::*;
+use iron::status;
+use std::env;
 
 #[derive(Debug)]
 struct TemplateItems {
@@ -23,6 +29,12 @@ struct Templates {
     answer_1_template: Vec<String>,
 }
 
+/// Look up our server port number in PORT, for compatibility with Heroku.
+fn get_server_port() -> u16 {
+    let port_str = env::var("PORT").unwrap_or(String::new());
+    port_str.parse().unwrap_or(8080)
+}
+
 fn main() {
     let name = "Juju";
     let templates = Templates {
@@ -40,5 +52,10 @@ fn main() {
                             },
                         }],
     };
-    println!("{:?}", questions);
+    Iron::new(move |_: &mut Request| {
+            let response = format!("{:?}", questions);
+            Ok(Response::with((status::Ok, response)))
+        })
+        .http(("0.0.0.0", get_server_port()))
+        .unwrap();
 }
