@@ -44,4 +44,10 @@ CONTAINER ID        IMAGE                 COMMAND                  CREATED      
 ce7f51a68325        zeugnis               "/zeugnis --name zeug"   4 seconds ago       Up 3 seconds        0.0.0.0:8080->8080/tcp             silly_ramanujan                 0 B (virtual 2.268 MB)
 ```
 
-The application is accessible on http://<docker-machine-ip>:8080
+The application is accessible on [localhost:8080](http://localhost:8080)
+or with docker-machine:
+```
+m=`docker-machine active`
+ip=`docker-machine ip $m`
+curl http://$ip:8080
+```
