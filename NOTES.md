@@ -12,7 +12,7 @@ git push heroku master
 [Docker & Rust: Statically Linking Binaries for Secure Execution in Untrusted Containers](http://betacs.pro/blog/2016/07/07/docker-and-rust/)
 [Docker environment for building musl based static rust binaries](https://github.com/clux/muslrust)
 
-## Build a statically linking binary
+## Build a statically linked binary
 
 ### On linux:
 ```
