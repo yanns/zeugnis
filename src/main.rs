@@ -1,4 +1,8 @@
+#![feature(plugin)]
+#![plugin(maud_macros)]
+
 extern crate iron;
+extern crate maud;
 
 mod generator;
 
@@ -35,13 +39,14 @@ fn get_server_port() -> u16 {
     port_str.parse().unwrap_or(8080)
 }
 
+#[cfg_attr(rustfmt, rustfmt_skip)]
 fn main() {
     let name = "Juju";
     let templates = Templates {
         answer_1_template: vec!["{name} beherrscht {akk} {was}.".to_string(),
                                 "{nom} {was} zeigt keine Schwierigkeiten für {name}.".to_string()],
     };
-    let questions = QuestionsTopic {
+    let topic_1 = QuestionsTopic {
         topic: "Mathe".to_string(),
         questions: vec![Question {
                             question: "ZR10".to_string(),
@@ -52,10 +57,34 @@ fn main() {
                             },
                         }],
     };
-    Iron::new(move |_: &mut Request| {
-            let response = format!("{:?}", questions);
-            Ok(Response::with((status::Ok, response)))
-        })
-        .http(("0.0.0.0", get_server_port()))
-        .unwrap();
+    let all_topics = vec![topic_1];
+    Iron::new(move |r: &mut Request| {
+        let markup = html! {
+            h1 "Zeugnis"
+            @for topic in &all_topics {
+                p {
+                    (topic.topic)
+                }
+                @for question in &topic.questions {
+                    p {
+                        (question.question)
+                    }
+                    @for template in &templates.answer_1_template {
+                        p {
+                            (generator::generate_one_suggestion(
+                                &template,
+                                &name,
+                                &question.answer_1_template.nom,
+                                &question.answer_1_template.akk,
+                                &question.answer_1_template.was))
+                        }
+                    }
+                }
+
+            }
+        };
+        Ok(Response::with((status::Ok, markup)))
+    })
+    .http(("0.0.0.0", get_server_port()))
+    .unwrap();
 }

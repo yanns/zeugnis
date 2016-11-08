@@ -5,6 +5,8 @@ authors = ["Yann Simon <yann.simon.fr@gmail.com>"]
 
 [dependencies]
 iron = "0.4.0"
+maud = { version = "*", features = ["iron"] }
+maud_macros = "*"
 
 [profile.release]
 lto = true

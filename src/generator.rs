@@ -5,7 +5,7 @@ pub fn generate_one_suggestion(template: &str,
                                akk: &str,
                                was: &str)
                                -> String {
-    uppercase_first_letter(template.replace("{name}", name)
+    uppercase_first_letter(template.replace("{name}", &uppercase_first_letter(name.to_string()))
         .replace("{nom}", nom)
         .replace("{akk}", akk)
         .replace("{was}", was))
@@ -36,6 +36,14 @@ mod tests {
     fn test_generate_one_suggestion_with_nom() {
         let possible_solution = "{nom} {was} zeigt keine Schwierigkeiten für {name}.";
         let result = generate_one_suggestion(possible_solution, "Peter", "der", "den", "ZR 10");
+        println!("{}", result);
+        assert_eq!(result, "Der ZR 10 zeigt keine Schwierigkeiten für Peter.");
+    }
+
+    #[test]
+    fn test_uppercase_name() {
+        let possible_solution = "{nom} {was} zeigt keine Schwierigkeiten für {name}.";
+        let result = generate_one_suggestion(possible_solution, "peter", "der", "den", "ZR 10");
         println!("{}", result);
         assert_eq!(result, "Der ZR 10 zeigt keine Schwierigkeiten für Peter.");
     }
