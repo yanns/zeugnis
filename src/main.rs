@@ -20,7 +20,7 @@ struct TemplateItems {
 #[derive(Debug)]
 struct Question {
     question: String,
-    answer_1_template: TemplateItems,
+    answer_1_placeholders: TemplateItems,
 }
 
 #[derive(Debug)]
@@ -30,7 +30,7 @@ struct QuestionsTopic {
 }
 
 struct Templates {
-    answer_1_template: Vec<String>,
+    answer_1_templates: Vec<String>,
 }
 
 /// Look up our server port number in PORT, for compatibility with Heroku.
@@ -43,14 +43,14 @@ fn get_server_port() -> u16 {
 fn main() {
     let name = "Juju";
     let templates = Templates {
-        answer_1_template: vec!["{name} beherrscht {akk} {was}.".to_string(),
+        answer_1_templates: vec!["{name} beherrscht {akk} {was}.".to_string(),
                                 "{nom} {was} zeigt keine Schwierigkeiten für {name}.".to_string()],
     };
     let topic_1 = QuestionsTopic {
         topic: "Mathe".to_string(),
         questions: vec![Question {
                             question: "ZR10".to_string(),
-                            answer_1_template: TemplateItems {
+                            answer_1_placeholders: TemplateItems {
                                 nom: "der".to_string(),
                                 akk: "den".to_string(),
                                 was: "ZR 10".to_string(),
@@ -69,14 +69,14 @@ fn main() {
                     p {
                         (question.question)
                     }
-                    @for template in &templates.answer_1_template {
+                    @for template in &templates.answer_1_templates {
                         p {
                             (generator::generate_one_suggestion(
                                 &template,
                                 &name,
-                                &question.answer_1_template.nom,
-                                &question.answer_1_template.akk,
-                                &question.answer_1_template.was))
+                                &question.answer_1_placeholders.nom,
+                                &question.answer_1_placeholders.akk,
+                                &question.answer_1_placeholders.was))
                         }
                     }
                 }
