@@ -1,3 +1,14 @@
+# Using rust nightly
+
+```
+rustup run nightly cargo test
+```
+
+```
+rustup run nightly cargo run
+```
+
+
 # Heroku
 
 Deployment to [heroku](https://zeugnis.herokuapp.com/) was configured with:
@@ -25,7 +36,6 @@ cargo build --target x86_64-unknown-linux-musl --release
 
 ### Other (mac):
 ```
-docker pull clux/muslrust
 docker run -v $PWD:/volume -w /volume -t clux/muslrust cargo build --release
 ```
 
