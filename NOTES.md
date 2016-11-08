@@ -62,5 +62,7 @@ or with docker-machine:
 ```
 m=`docker-machine active`
 ip=`docker-machine ip $m`
-curl http://$ip:8080
+url=http://$ip:8080
+echo $url
+curl $url
 ```
