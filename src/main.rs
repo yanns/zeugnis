@@ -58,7 +58,9 @@ fn main() {
                         }],
     };
     let all_topics = vec![topic_1];
-    Iron::new(move |r: &mut Request| {
+    let port = get_server_port();
+    println!("Starting on http://0.0.0.0:{:?}/", &port);
+    Iron::new(move |_: &mut Request| {
         let markup = html! {
             h1 "Zeugnis"
             @for topic in &all_topics {
@@ -85,6 +87,6 @@ fn main() {
         };
         Ok(Response::with((status::Ok, markup)))
     })
-    .http(("0.0.0.0", get_server_port()))
+    .http(("0.0.0.0", port))
     .unwrap();
 }
